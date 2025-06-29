@@ -1,0 +1,14 @@
+[
+  {
+    "timestamp": "2025-06-29T20:27:09.795033",
+    "instruction": "Add a raad me document to project root, this document will be kept on modified and added and carried along the path, so have a good plan on how to write it",
+    "file_modified": "project_indexer.py",
+    "summary": "Change applied"
+  },
+  {
+    "timestamp": "2025-06-29T20:35:25.821496",
+    "instruction": "Add a read me to the project with instructions on how to use it and how to contribute.",
+    "file_modified": "readme.md",
+    "summary": "Change applied"
+  }
+]
