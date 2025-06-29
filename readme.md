@@ -65,3 +65,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone whose code was used
 * Inspiration
 * etc
+next tasks:
+* as of now I see huggingfacemebeddings, chroma, vectors, Ollama, large language model, mistral as vectors as things which I am not holding a complete ownership on, not even 20 percent grip, so I want to know them. if I missed anything you can add
