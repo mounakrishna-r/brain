@@ -5,6 +5,7 @@ from langchain.chains import RetrievalQA
 import json
 import os
 from datetime import datetime
+from project_indexer import index_project
 import random
 
 def load_virus_chat(persist_path="virus_memory"):
@@ -31,12 +32,14 @@ def start_chat():
             response = qa.run("Pretend you are turning off and going to sleep.This is a metaphor for the end of our conversation.")
             print("VIRUS: ",{response})
             log_conversation(query, response)
-            goodbye_message()
+            index_project()
+            print("Project indexed")
             break
 
         response = qa.run(query)
         print("VIRUS: ",{response})
         log_conversation(query, response)
+        index_project()
 
 def log_conversation(user_input, virus_response):
     log_path = "data/memory_log.json"
@@ -62,10 +65,3 @@ def log_conversation(user_input, virus_response):
 
     with open(log_path, "w") as f:
         json.dump(log_data, f, indent=2)
-
-def goodbye_message():
-    quotes = ["Goodbye! Remember, the only way to do great work is to love what you do. - Steve Jobs",
-              "See you later! The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
-              "Farewell! The best way to predict the future is to create it. - Abraham Lincoln"]
-    print(random.choice(quotes))
-    print("Current time: ", datetime.now().strftime("%H:%M:%S"))

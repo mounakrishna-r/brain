@@ -1,0 +1,8 @@
+{
+  "injector.py": "Handles intelligent code injection and modification",
+  "chat.py": "Manages the assistant's interactive chat loop",
+  "embedder.py": "Embeds documents into vector memory",
+  "main.py": "Launches the assistant and chat",
+  "project_indexer.py": "Indexes code files and creates searchable embeddings",
+  "readme.md": "Contains project overview and instructions for users"
+}
