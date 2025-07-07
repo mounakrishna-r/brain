@@ -1,11 +1,17 @@
+# main.py
+
 import os
-from virus.embedder import embed_brain
-from virus.chat import start_chat
+from core.memory import embed_brain
+from interfaces.cli_chat import start_chat
+from config.settings import PDF_PATH, VECTOR_DB_DIR
+
+def ensure_memory():
+    if not os.path.exists(VECTOR_DB_DIR) or not os.listdir(VECTOR_DB_DIR):
+        print(f"[🧠] No vector memory found. Embedding: {PDF_PATH}")
+        embed_brain(PDF_PATH)
+    else:
+        print("[🧠] Vector memory already present. Skipping embedding.")
 
 if __name__ == "__main__":
-    # Check if the PDF file exists
-    if not os.path.exists("virus_memory") or not os.listdir("virus_memory"):
-        embed_brain("resources/brain.pdf")
-
-    # Start the chat interface
+    ensure_memory()
     start_chat()

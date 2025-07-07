@@ -1,38 +1,36 @@
+# dev_utils/injector.py
+
 import os
 import json
-from openai import OpenAI
 from datetime import datetime
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-EMBED_MODEL = "all-MiniLM-L6-v2"
-VECTOR_DB_PATH = "code_memory"
-PROJECT_MAP_FILE = "project_map.json"
-LOG_FILE = os.path.join("logs", "injector_log.json")
+PROJECT_MAP_FILE = "dev_utils/project_map.json"
+LOG_FILE = "logs/injector_log.json"
 os.makedirs("logs", exist_ok=True)
 
-def log_injection(instruction, file_path, summary=None):
+def log_injection(instruction, file_path, summary="Change applied"):
     entry = {
         "timestamp": datetime.now().isoformat(),
         "instruction": instruction,
         "file_modified": file_path,
-        "summary": summary or "Change applied"
+        "summary": summary
     }
-    # Read existing log or start a new list
+
     if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r") as f:
-            try:
+        try:
+            with open(LOG_FILE, "r") as f:
                 log = json.load(f)
-                if isinstance(log, dict):
-                    log = [log]
-            except json.JSONDecodeError:
-                log = []
+        except json.JSONDecodeError:
+            log = []
     else:
         log = []
+
     log.append(entry)
-    # Write the updated log as a JSON array
     with open(LOG_FILE, "w") as f:
         json.dump(log, f, indent=2)
 
@@ -40,86 +38,73 @@ def choose_file_with_gpt(instruction):
     with open(PROJECT_MAP_FILE, "r") as f:
         project_map = json.load(f)
 
-    file_prompt = f"""
-You are part of an AI assistant that modifies code files.
-
-Given this instruction:
+    prompt = f"""
+Instruction:
 "{instruction}"
 
-And this list of files and their purposes:
+Files and roles:
 {json.dumps(project_map, indent=2)}
 
-Return ONLY the filename that should be modified. No explanation.
+Return ONLY the best file path to modify.
 """
 
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are an intelligent file selector."},
-            {"role": "user", "content": file_prompt}
+            {"role": "system", "content": "You are a smart code assistant."},
+            {"role": "user", "content": prompt}
         ],
         temperature=0
     )
 
-    selected_file = response.choices[0].message.content.strip().strip('"')
-    print(f"[🧠] GPT chose to modify: {selected_file}")
-    return selected_file
-
+    return response.choices[0].message.content.strip().strip('"')
 
 def inject_feature(instruction, model="gpt-4"):
-    print("[→] Using project map to determine best file...")
-
+    print("[→] Choosing target file...")
     file_path = choose_file_with_gpt(instruction)
+
     if not os.path.exists(file_path):
-        print(f"[✗] Selected file not found: {file_path}")
+        print(f"[✗] File not found: {file_path}")
         return
 
     with open(file_path, "r") as f:
-        original_code = f.read()
+        original = f.read()
 
-    system_prompt = (
-        "You are an autonomous coding agent. You will receive an instruction "
-        "and the full content of a target code file. Apply the instruction intelligently. "
-        "Output ONLY the updated full file content."
-    )
+    prompt = f"""
+You are a helpful AI that modifies Python files based on user instructions.
 
-    user_prompt = f"""
-INSTRUCTION:
+Instruction:
 {instruction}
 
-FILE: {file_path}
-
-CURRENT FILE CONTENT:
-{original_code}
+Original code:
+{original}
 """
 
-    print("[→] Asking GPT to modify the file...")
-
+    print("[→] Sending to GPT...")
     response = client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+            {"role": "system", "content": "You are an autonomous coding agent. Return the updated full file only."},
+            {"role": "user", "content": prompt}
         ],
-        temperature=0.2,
+        temperature=0.3,
         max_tokens=3000
     )
 
-    updated_code = response.choices[0].message.content.strip()
+    updated = response.choices[0].message.content.strip()
 
-    # Backup and write
-    backup_path = file_path + ".bak"
-    os.rename(file_path, backup_path)
+    backup = file_path + ".bak"
+    if os.path.exists(backup):
+        os.remove(backup)
+    os.rename(file_path, backup)
+
     with open(file_path, "w") as f:
-        f.write(updated_code)
+        f.write(updated)
 
-    print(f"[✓] File updated: {file_path}")
-    print(f"[📦] Backup created: {backup_path}")
-
+    print(f"[✓] Updated: {file_path} (backup saved)")
     log_injection(instruction, file_path)
-
 
 # Optional test run
 if __name__ == "__main__":
-    test_instruction = "Add a function to list all previous instructions logged in injector_log.json"
+    test_instruction = "Add a function to clear the memory_log.json file"
     inject_feature(test_instruction)
