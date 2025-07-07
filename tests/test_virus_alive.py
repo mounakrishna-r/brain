@@ -7,7 +7,7 @@ def test_basic_response():
 
     assert isinstance(response, str)
     assert any(word in response.lower() for word in ["assist", "help", "answer", "support"])
-    print("[✓] JARVIS assistant is responsive.")
+    print("[✓] Monarch assistant is responsive.")
 
 if __name__ == "__main__":
     test_basic_response()

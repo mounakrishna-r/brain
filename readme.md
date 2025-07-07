@@ -1,4 +1,4 @@
-# JARVIS Assistant
+# Monarch Assistant
 
 This version contains only your existing working logic.
 # config/settings.py
@@ -335,7 +335,7 @@ from core.llm_setup import load_retrieval_chain
 from core.logger import log_conversation
 
 def start_chat():
-print("🧠 Welcome to the JARVIS CLI Assistant!")
+print("🧠 Welcome to the Monarch CLI Assistant!")
 print("Type your question or 'exit' to quit.\n")
 
     qa = load_retrieval_chain()
@@ -345,12 +345,12 @@ print("Type your question or 'exit' to quit.\n")
             query = input("You: ").strip()
             if query.lower() in ['exit', 'quit', 'bye']:
                 farewell = qa.run("Say goodbye as if you're going to sleep.")
-                print(f"JARVIS: {farewell}")
+                print(f"Monarch: {farewell}")
                 log_conversation(query, farewell)
                 break
 
             response = qa.run(query)
-            print(f"JARVIS: {response}")
+            print(f"Monarch: {response}")
             log_conversation(query, response)
         except KeyboardInterrupt:
             print("\n[⚠️] Interrupted. Exiting...")
@@ -388,7 +388,7 @@ response = qa.run(query)
     assert isinstance(response, str)
     assert any(word in response.lower() for word in ["assist", "help", "answer", "support"])
 
-    print("[✓] JARVIS assistant is responsive and coherent.")
+    print("[✓] Monarch assistant is responsive and coherent.")
 
 if __name__ == "__main__":
 test_basic_response()

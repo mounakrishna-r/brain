@@ -13,7 +13,7 @@
   },
   {
     "timestamp": "2025-07-08T02:33:32.535306",
-    "instruction": "Add a print statement saying 'Jarvis ready' at the top of main.py",
+    "instruction": "Add a print statement saying 'Monarch ready' at the top of main.py",
     "file_modified": "main.py",
     "summary": "Change applied"
   }

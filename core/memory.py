@@ -20,7 +20,7 @@ def embed_pdf(pdf_path, persist_path=VECTOR_DB_DIR):
     Chroma.from_documents(chunks, embedding=embedder, persist_directory=persist_path)
     print(f"[✓] Embedded PDF stored in {persist_path}")
 
-def embed_codebase(root_dir=".", persist_path="code_memory"):
+def embed_codebase(root_dir=".", persist_path="code_embeddings"):
     print(f"[→] Scanning Python files in {root_dir}...")
     py_files = []
     for dirpath, _, filenames in os.walk(root_dir):
