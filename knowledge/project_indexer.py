@@ -44,7 +44,7 @@ def embed_to_chroma(docs, persist_path=MEMORY_DIR):
     vectordb.persist()
     print(f"[✓] Indexed {len(docs)} chunks into {persist_path}")
 
-def index_project():
+if __name__ == "__main__":
     print("[→] Scanning project files...")
     py_files = collect_python_files(PROJECT_ROOT)
     print(f"[✓] Found {len(py_files)} Python files")
@@ -54,6 +54,3 @@ def index_project():
 
     print("[→] Saving to vector memory...")
     embed_to_chroma(chunks)
-
-if __name__ == "__main__":
-    index_project()

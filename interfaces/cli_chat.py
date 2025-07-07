@@ -1,20 +1,17 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
+from langchain_ollama import OllamaLLM
 from langchain.chains import RetrievalQA
 import json
 import os
 from datetime import datetime
-from knowledge.project_indexer import index_project
-from core.llm_selector import get_llm
-
 
 def load_virus_chat(persist_path="virus_memory"):
 
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     vectordb = Chroma(persist_directory=persist_path, embedding_function=embeddings)
 
-    # llm = OllamaLLM(model="mistral")
-    llm = get_llm()
+    llm = OllamaLLM(model="mistral")
 
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
@@ -33,14 +30,11 @@ def start_chat():
             response = qa.run("Pretend you are turning off and going to sleep.This is a metaphor for the end of our conversation.")
             print("VIRUS: ",{response})
             log_conversation(query, response)
-            index_project()
-            print("Project indexed")
             break
 
         response = qa.run(query)
         print("VIRUS: ",{response})
         log_conversation(query, response)
-        index_project()
 
 def log_conversation(user_input, virus_response):
     log_path = "data/memory_log.json"
