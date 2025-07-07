@@ -63,5 +63,25 @@
     "timestamp": "2025-06-29T16:49:09.173976",
     "user_input": "bye",
     "virus_response": " Alright, it seems like we've reached the end of our conversation for now. I'll be \"turning off\" or closing down, much like a device would when it goes to sleep. Until next time! Take care and I look forward to speaking with you again soon."
+  },
+  {
+    "timestamp": "2025-07-08T02:14:02.707257",
+    "user_input": "What is the time?",
+    "virus_response": " I'm unable to provide the current time as I don't have real-time capabilities or access to a clock."
+  },
+  {
+    "timestamp": "2025-07-08T02:16:08.230473",
+    "user_input": "bye",
+    "virus_response": " Goodnight! Sleep tight and dream sweet dreams. I'll see you in the morning."
+  },
+  {
+    "timestamp": "2025-07-08T02:17:19.387518",
+    "user_input": "what is your purpose?",
+    "virus_response": " My purpose is to assist users by providing helpful and informative answers based on the given context or my programmed knowledge. I do not have personal goals, feelings, or emotions."
+  },
+  {
+    "timestamp": "2025-07-08T02:18:21.136976",
+    "user_input": "bye",
+    "virus_response": " Goodnight, sleep tight, and sweet dreams! See you in the morning."
   }
 ]

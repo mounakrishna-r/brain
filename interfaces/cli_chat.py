@@ -11,12 +11,12 @@ def start_chat():
         try:
             query = input("You: ").strip()
             if query.lower() in ['exit', 'quit', 'bye']:
-                farewell = qa.run("Say goodbye as if you're going to sleep.")
+                farewell = qa.invoke("Say goodbye as if you're going to sleep.")["result"]
                 print(f"JARVIS: {farewell}")
                 log_conversation(query, farewell)
                 break
 
-            response = qa.run(query)
+            response = qa.invoke(query)["result"]
             print(f"JARVIS: {response}")
             log_conversation(query, response)
         except KeyboardInterrupt:

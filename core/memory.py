@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from config.settings import EMBED_MODEL_NAME, VECTOR_DB_DIR
 
@@ -17,8 +17,7 @@ def embed_pdf(pdf_path, persist_path=VECTOR_DB_DIR):
     print(f"[✓] PDF split into {len(chunks)} chunks.")
 
     embedder = HuggingFaceEmbeddings(model_name=EMBED_MODEL_NAME)
-    vectordb = Chroma.from_documents(chunks, embedding=embedder, persist_directory=persist_path)
-    vectordb.persist()
+    Chroma.from_documents(chunks, embedding=embedder, persist_directory=persist_path)
     print(f"[✓] Embedded PDF stored in {persist_path}")
 
 def embed_codebase(root_dir=".", persist_path="code_memory"):
@@ -45,8 +44,7 @@ def embed_codebase(root_dir=".", persist_path="code_memory"):
             print(f"[✗] Error loading {path}: {e}")
 
     embedder = HuggingFaceEmbeddings(model_name=EMBED_MODEL_NAME)
-    vectordb = Chroma.from_documents(all_chunks, embedding=embedder, persist_directory=persist_path)
-    vectordb.persist()
+    Chroma.from_documents(all_chunks, embedding=embedder, persist_directory=persist_path)
     print(f"[✓] Indexed {len(all_chunks)} code chunks into {persist_path}")
 
 def embed_brain(pdf_path, persist_path=VECTOR_DB_DIR):
