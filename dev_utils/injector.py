@@ -1,5 +1,3 @@
-# dev_utils/injector.py
-
 import os
 import json
 from datetime import datetime

@@ -1,5 +1,3 @@
-# tests/test_virus_alive.py
-
 from core.llm_setup import load_retrieval_chain
 
 def test_basic_response():
@@ -9,8 +7,7 @@ def test_basic_response():
 
     assert isinstance(response, str)
     assert any(word in response.lower() for word in ["assist", "help", "answer", "support"])
-
-    print("[✓] JARVIS assistant is responsive and coherent.")
+    print("[✓] JARVIS assistant is responsive.")
 
 if __name__ == "__main__":
     test_basic_response()

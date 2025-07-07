@@ -1,5 +1,3 @@
-# core/llm_setup.py
-
 from langchain_ollama import OllamaLLM
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma

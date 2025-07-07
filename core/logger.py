@@ -1,5 +1,3 @@
-# core/logger.py (Updated)
-
 import os
 import json
 import csv

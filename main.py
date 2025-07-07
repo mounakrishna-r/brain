@@ -1,5 +1,3 @@
-# main.py
-
 import os
 from core.memory import embed_brain
 from interfaces.cli_chat import start_chat

@@ -1,5 +1,3 @@
-# interfaces/cli_chat.py
-
 from core.llm_setup import load_retrieval_chain
 from core.logger import log_conversation
 
